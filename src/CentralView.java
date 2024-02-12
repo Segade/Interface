@@ -5,12 +5,11 @@
  */
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicSplitPaneUI;
 import java.awt.*;
 import java.awt.event.*;
 
 
-public class CentralView extends JFrame implements ActionListener, FocusListener, KeyListener {
+public class CentralView extends JFrame implements NativeKeyListener, ActionListener, FocusListener, KeyListener {
     // declare the controller and the GUI components
     CentralController controller;
     JFrame centralFrame;
@@ -21,6 +20,8 @@ public class CentralView extends JFrame implements ActionListener, FocusListener
     JTextField textToSpeechField;
 
     KeyListener keyListener;
+
+    //NativeKeyListener nkeyListener;
 private boolean stop = false;
     Thread myThread;
     /**
@@ -85,6 +86,14 @@ private boolean stop = false;
 
     } // end set frame
 
+    // custom dispatcher
+
+
+    // now we hijack the keyboard manager
+
+
+
+
 
     /**
      * method that adds the action, focus and key listeners to the GUI components
@@ -98,6 +107,17 @@ private boolean stop = false;
         addFrameListener();
         textToSpeechField.addKeyListener(this);
         speakButton.addKeyListener(keyListener);
+
+        KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+        //KeyDispatcher ked = new KeyDispatcher();
+        manager.addKeyEventDispatcher(new KeyDispatcher());
+
+
+        
+
+
+
+
     } // end add listeners
 
     /**
@@ -171,7 +191,7 @@ private boolean stop = false;
   myThread = new Thread(() -> {
     controller.speak(textToSpeechField.getText());
     while (!stop) {
-        // call to the method in the controller class
+    // call to the method in the controller class
         controller.speak(textToSpeechField.getText());
 
         try {

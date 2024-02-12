@@ -25,6 +25,7 @@ public class CentralController {
 
         // It instantiates the interface
         CentralView centralView = new CentralView(this);
+
         centralView.display();
     } // end display
 
