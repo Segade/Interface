@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public interface MyKeyEventDispatcher extends KeyEventDispatcher {
-    String MyDispatchKeyEvent(KeyEvent e);
+    boolean DispatchKeyEvent(KeyEvent e);
 
     @Override
     default boolean dispatchKeyEvent(KeyEvent e) {

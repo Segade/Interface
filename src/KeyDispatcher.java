@@ -2,38 +2,33 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-class KeyDispatcher implements MyKeyEventDispatcher {
-    String key;
+class KeyDispatcher implements KeyEventDispatcher {
+    private CentralView view;
+
+
+public KeyDispatcher(CentralView view){
+
+this.view = view;
+
+} // end constructor
+
+
+    public boolean dispatchKeyEvent(KeyEvent e) {
+        //if(e.getID() == KeyEvent.KEY_TYPED) {
+            int keyCode = e.getKeyCode();
+
+            String keyPressed = KeyEvent.getKeyText(keyCode);
 
 
 
-
-    public String MyDispatchKeyEvent(KeyEvent e) {
-
-        // System.out.println("event"+e.getKeyCode());
-        //int kCode = (e.getKeyCode());
-        //key = KeyEvent.getKeyText(kCode);
-
-        // System.out.println("key = "+keyPressed);
-
-        // String keyPressed = KeyEvent.getKeyText(keyCode);
-
-       /* if(e.getID() == KeyEvent.KEY_TYPED) {
-            //System.out.println( "typed" + e.getKeyCode() );
-            //int keyCodeM = e.getKeyCode();
-
-            // with the code, I get the text associated to the corresponding key
-           // String keyPressed = KeyEvent.getKeyText(keyCodeM);
-           // System.out.println( "typed" + keyPressed );
-        }*/
-
-        int keyCode = e.getKeyCode();
-        String keyPressed = KeyEvent.getKeyText(keyCode);
-
-        // allow the event to be redispatched
-        return key;
-    }
+        if(e.getID() != KeyEvent.KEY_TYPED)
+            System.out.println("*" + keyPressed  + "*");
 
 
+        view.setKeyPressed(keyPressed);
+
+          // allow the event to be redispatched
+return false;
+    } // end DispatchKeyEvent
 
 } // end class

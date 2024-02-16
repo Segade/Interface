@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 
-public class CentralView extends JFrame implements NativeKeyListener, ActionListener, FocusListener, KeyListener {
+public class CentralView extends JFrame implements ActionListener, FocusListener {
     // declare the controller and the GUI components
     CentralController controller;
     JFrame centralFrame;
@@ -24,6 +24,8 @@ public class CentralView extends JFrame implements NativeKeyListener, ActionList
     //NativeKeyListener nkeyListener;
 private boolean stop = false;
     Thread myThread;
+
+    int count = 0;
     /**
      * constructor of the class that receives the controller as a parameter to access its methods
      *
@@ -38,10 +40,14 @@ private boolean stop = false;
         setFrame();
 
         // add the listeners to the GUI components
-        addListeners();
+       // addListeners();
 
 // add the GUI components to the frame
         addFrame();
+
+        KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+        //KeyDispatcher ked = new KeyDispatcher();
+        manager.addKeyEventDispatcher(new KeyDispatcher(this));
 
     }// end constructor
 
@@ -86,14 +92,6 @@ private boolean stop = false;
 
     } // end set frame
 
-    // custom dispatcher
-
-
-    // now we hijack the keyboard manager
-
-
-
-
 
     /**
      * method that adds the action, focus and key listeners to the GUI components
@@ -104,63 +102,9 @@ private boolean stop = false;
         speakButton.addActionListener(this);
         textToSpeechField.addFocusListener(this);
 
-        addFrameListener();
-        textToSpeechField.addKeyListener(this);
-        speakButton.addKeyListener(keyListener);
-
-        KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-        //KeyDispatcher ked = new KeyDispatcher();
-        manager.addKeyEventDispatcher(new KeyDispatcher());
-
-
-        
-
-
-
-
     } // end add listeners
 
-    /**
-     * method that adds the listners to the frame
-     */
 
-    private void addFrameListener() {
-        keyListener = new KeyListener() {
-            // declare a key listener and allows to override the required methods
-            @Override
-            public void keyTyped(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-
-// get the code of the key pressed
-                int keyCode = e.getKeyCode();
-
-                // with the code, I get the text associated to the corresponding key
-                String keyPressed = KeyEvent.getKeyText(keyCode);
-
-
-                if (keyPressed.equals("Ctrl")) {
-                    myThread.interrupt();
-
-                }
-
-                // call to the speak method in the controller to announce the text
-                controller.speak(keyPressed);
-
-            } // end key press
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-
-            }
-        };
-
-        // add the declared key listener to the frame
-        centralFrame.addKeyListener(keyListener);
-    } // end add frame listener
 
     /**
      * method that add the GUI components to the frame
@@ -190,6 +134,7 @@ private boolean stop = false;
 
   myThread = new Thread(() -> {
     controller.speak(textToSpeechField.getText());
+
     while (!stop) {
     // call to the method in the controller class
         controller.speak(textToSpeechField.getText());
@@ -208,30 +153,7 @@ myThread.start();
     }// end action perform
 
 
-    /**
-     * method that declares the action when the GUI component has the focus
-     *
-     * @param e the event to be processed
-     */
 
-    public void focusGained(FocusEvent e) {
-        String textFocus = "";
-
-        // if the button has the focus
-        if (e.getSource() == speakButton)
-            //declare the text to speech
-            textFocus = "Speak, Button";
-
-            // if the textbox has the focus
-        else if (e.getSource() == textToSpeechField)
-            //declare the text to speech
-            textFocus = "Enter the text to speech, Text edit";
-
-
-        // call to the speak method in the controller to announce the text
-        controller.speak(textFocus);
-
-    } // end focus gained
 
 
     /**
@@ -241,35 +163,17 @@ myThread.start();
      *
      * @param e the event to be processed
      */
+    public void focusGained(FocusEvent e) {}
+
 
     public void focusLost(FocusEvent e) {
     } // end focus lost
 
-
-    /**
-     * methods from the key listener
-     * only the press method is required in this project
-     *
-     * @param e the event to be processed
-     */
-
-    public void keyTyped(KeyEvent e) {
-    }
-
-    public void keyReleased(KeyEvent e) {
-    }
-
-    public void keyPressed(KeyEvent e) {
-// get the code of the key pressed
-        int keyCode = e.getKeyCode();
-
-        // with the code, I get the text associated to the corresponding key
-        String keyPressed = KeyEvent.getKeyText(keyCode);
-
-        // call to the speak method in the controller to announce the text
-        controller.speak(keyPressed);
-
-    } // end key pressed
+public void setKeyPressed(String key){
+        count++;
+        System.out.println("times " + count  );
+    controller.speak(key);
+} // end set key pressed
 
 
 } //end of class

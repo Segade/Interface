@@ -6,7 +6,7 @@
 
 public class CentralController {
     // declaration the MyVoice class used
-    MyVoice myVoice;
+    MyVoice myVoice = MyVoice.getInstance();
 
     /**
      * Constructor of the controller
@@ -18,7 +18,7 @@ public class CentralController {
 
     public void display() {
         //It instantiates the MyVoice class
-        MyVoice myVoice = MyVoice.getInstance();
+//        MyVoice myVoice = MyVoice.getInstance();
 
         // It calls out the presentation message of the program
         myVoice.speak("Welcome to the central application");
@@ -37,8 +37,8 @@ public class CentralController {
      * @param textToSpeech
      */
     public void speak(String textToSpeech) {
-        myVoice = MyVoice.getInstance();
-        myVoice.speak(textToSpeech);
+
+         myVoice.speak(textToSpeech);
     } // end of speak
 
 } // end of class

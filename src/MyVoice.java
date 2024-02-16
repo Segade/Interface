@@ -15,8 +15,8 @@ public class MyVoice {
     private static MyVoice uniqueInstance;
 
     // variables needed to create the voice, provided by the FreeTTS
-    VoiceManager voiceManager;
-    Voice voice;
+     VoiceManager voiceManager;
+     Voice voice;
 
     /**
      * private constructor to avoid create several instantiations of the class
@@ -25,9 +25,9 @@ public class MyVoice {
 // setting up the voice
 // selecting the voice used
         String voiceName = "kevin16";
-        voiceManager = VoiceManager.getInstance();
-        voice = voiceManager.getVoice(voiceName);
-        voice.allocate();
+         voiceManager = VoiceManager.getInstance();
+         voice = voiceManager.getVoice(voiceName);
+         voice.allocate();
     } // end of constructor
 
 
@@ -59,7 +59,7 @@ public class MyVoice {
      * public method that diallocated the resources assigned to the voice if needed
      */
     public void deallocate() {
-        voice.deallocate();
+         voice.deallocate();
     }
 
 } // end of class
